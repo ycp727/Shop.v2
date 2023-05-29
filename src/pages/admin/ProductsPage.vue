@@ -228,16 +228,13 @@ import { storeToRefs } from "pinia";
 
 const { getProducts, addProducts, editProducts, deleteProducts } =
   useStockProductsStore();
-const { products, showAddDialog } = storeToRefs(useStockProductsStore());
+const { products } = storeToRefs(useStockProductsStore());
 
 onMounted(async () => {
   await getProducts();
 });
 
 const filter = ref("");
-const showDialogF = ref(false);
-const showcardDialogF = ref(false);
-const showEditDialog = ref(false);
 const tempProducts = ref({});
 
 const columnsproducts = [
