@@ -1,76 +1,260 @@
 <template>
-  <q-page padding>
-    <div class="q-pa-md" style="max-width: 400px">
-      <q-form class="q-gutter-md">
-        <q-input
-          filled
-          v-model="dto.identity"
-          label="User name*"
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        />
-
-        <q-input
-          :type="isPwd ? 'text' : 'password'"
-          filled
-          v-model="dto.password"
-          label="Contraseña"
-          lazy-rules
-          :rules="[
-            (val) =>
-              (val && val.length > 0) || 'No deje en blanco la contraseña',
-          ]"
-          @keypress.enter.prevent="sendLogin"
-        >
-          <template v-slot:append>
-            <q-icon
-              :name="isPwd ? 'las la-eye-slash' : 'las la-eye'"
-              class="cursor-pointer"
-              @click="isPwd = !isPwd"
-            />
-          </template>
-        </q-input>
-
-        <div>
-          <q-btn
-            label="Acceder"
-            type="bottom"
-            @click="sendLogin"
-            color="primary"
-          />
-          <q-btn
-            label="Reset"
-            type="reset"
-            @reset="onReset"
-            color="primary"
-            flat
-            class="q-ml-sm"
-          />
+  <div class="auth-page">
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+    <q-card flat bordered class="my-card">
+      <q-card-section>
+        <div class="row items-center no-wrap">
+          <div class="col">
+            <div
+              class="text-h5 text-weight-bolder text-center text-darck"
+              v-if="isCuenta"
+            >
+              Crear Cuenta
+            </div>
+            <div
+              class="text-h5 text-weight-bolder text-center text-darck"
+              v-else
+            >
+              Acceso
+            </div>
+          </div>
+          <div class="col-auto"></div>
         </div>
-      </q-form>
-    </div>
-  </q-page>
+      </q-card-section>
+
+      <q-card-section v-if="isCuenta">
+        <q-form @submit.prevent="submitCrearCuenta" class="q-gutter-xs">
+          <q-file
+            filled
+            bottom-slots
+            v-model="crearCuentaForm.avatar"
+            label="Agregar Foto de Perfil"
+            counter
+            @update:model-value="updateFile()"
+          >
+            <template v-slot:before>
+              <q-avatar
+                size="200px"
+                style="transform: translateY(-250%) translateX(-50%)"
+                class="absolute-center shadow-10"
+              >
+                <img :src="imageUrl || 'src/assets/no_user_login.png'" />
+              </q-avatar>
+            </template>
+            <template v-slot:prepend>
+              <q-icon name="cloud_upload" @click.stop.prevent />
+            </template>
+            <template v-slot:append>
+              <q-icon
+                name="close"
+                @click.stop.prevent="clearPreview"
+                class="cursor-pointer"
+              />
+            </template>
+          </q-file>
+
+          <q-input
+            type="text"
+            label="Nombres y Apellidos"
+            v-model="crearCuentaForm.name"
+            dense
+            required
+          />
+          <q-input
+            type="text"
+            label="Nombre de Usuario"
+            v-model="crearCuentaForm.username"
+            dense
+          />
+          <q-input
+            type="email"
+            label="Correo electrónico"
+            v-model="crearCuentaForm.email"
+            dense
+            required
+          />
+          <q-input
+            type="password"
+            label="Contraseña"
+            v-model="crearCuentaForm.password"
+            dense
+            required
+          />
+          <q-input
+            type="password"
+            label="Confirmar Contraseña"
+            v-model="crearCuentaForm.passwordConfirm"
+            dense
+            required
+          />
+
+          <q-card-actions vertical>
+            <q-toggle
+              v-model="accept"
+              label="Acepto la licencia y los términos"
+            />
+            <q-btn
+              class="q-ma-xs"
+              type="submit"
+              color="positive"
+              icon="login"
+              label="Crear"
+            />
+            <q-btn
+              class="q-ma-xs"
+              type="submit"
+              color="negative"
+              label="Regresar"
+              icon="logout"
+              to="/"
+            />
+          </q-card-actions>
+        </q-form>
+      </q-card-section>
+
+      <!-- Acceso -->
+      <q-card-section v-else>
+        <q-form @submit.prevent="submitAcceso" class="q-gutter-md">
+          <q-input
+            type="email"
+            label="Correo electrónico"
+            v-model="accesoForm.identity"
+            required
+          />
+          <q-input
+            type="password"
+            label="Contraseña"
+            v-model="accesoForm.password"
+            required
+          />
+          <q-card-actions vertical>
+            <q-btn
+              class="q-ma-xs"
+              type="submit"
+              color="positive"
+              icon="login"
+              label="Acceso"
+            />
+            <q-btn
+              class="q-ma-xs"
+              type="submit"
+              color="negative"
+              label="Regresar"
+              icon="logout"
+              to="/"
+            />
+          </q-card-actions>
+        </q-form>
+      </q-card-section>
+      <!-- Crear Cuenta -->
+      <q-card-section>
+        <div v-if="isCuenta" class="text-overline text-center">
+          ¿Ya tienes una cuenta?
+          <a href="#" @click.prevent="toggleForm(false)">Acceso</a>
+        </div>
+        <div v-else class="text-overline text-center">
+          ¿No tienes una cuenta?
+          <a href="#" @click.prevent="toggleForm(true)">Crear Cuenta</a>
+        </div>
+      </q-card-section>
+    </q-card>
+  </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useAuthStore } from "src/stores/AuthUser";
+import { storeToRefs } from "pinia";
 
-const { login } = useAuthStore();
+const { submitAcceso, submitCrearCuenta } = useAuthStore();
+const { crearCuentaForm, accesoForm } = storeToRefs(useAuthStore());
 
-const dto = ref({
-  identity: "",
-  password: "",
-});
+const accept = ref(false);
+const isCuenta = ref(true);
 
-let isPwd = ref(false);
+const imageUrl = ref("");
+function updateFile() {
+  imageUrl.value = URL.createObjectURL(crearCuentaForm.value.avatar);
+  console.log("imageUrl: ", imageUrl);
+}
+function clearPreview() {
+  crearCuentaForm.value.avatar = null;
+  imageUrl.value = "";
+}
 
-const sendLogin = async () => {
-  await login({ identity: dto.value.identity, password: dto.value.password });
-};
-
-const onReset = () => {
-  dto.value.identity = null;
-  dto.value.password = null;
-};
+function toggleForm(value) {
+  isCuenta.value = value;
+}
 </script>
+
+<style scoped lang="scss">
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.my-card {
+  width: 100%;
+  max-width: 350px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8.3px);
+  -webkit-backdrop-filter: blur(8.3px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.bg {
+  animation: slide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, #6c3 50%, rgb(183, 238, 80) 50%);
+  bottom: 0;
+  left: -50%;
+  opacity: 0.5;
+  position: fixed;
+  right: -50%;
+  top: 0;
+  z-index: -1;
+}
+
+.bg2 {
+  animation-direction: alternate-reverse;
+  animation-duration: 4s;
+}
+
+.bg3 {
+  animation-duration: 5s;
+}
+
+.content {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 0.25em;
+  box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  left: 50%;
+  padding: 10vmin;
+  position: fixed;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(25%);
+  }
+}
+</style>
