@@ -61,6 +61,53 @@
       <q-separator />
     </q-card>
 
+    <q-card class="row-12">
+      <q-card-section horizontal>
+        <q-card-section>
+          <div class="text-subtitle2 text-justify">
+            Además de ofrecer cactus de alta calidad, también nos comprometemos
+            a brindar un excelente servicio al cliente. Si tienes alguna
+            pregunta o necesitas ayuda para elegir el cactus adecuado para ti,
+            nuestro equipo de expertos estará encantado de ayudarte.
+          </div>
+        </q-card-section>
+        <q-img class="col-5" src="~/assets/Cactus.png" />
+      </q-card-section>
+      <q-separator />
+    </q-card>
+
+    <q-card class="row-12">
+      <q-card-section horizontal>
+        <q-img class="col-5" src="~/assets/Cactus.png" />
+
+        <q-card-section>
+          <div class="text-subtitle2 text-justify">
+            Comprar en nuestra tienda es fácil y conveniente. Simplemente navega
+            por nuestra selección en línea, agrega los cactus que te gusten a tu
+            carrito de compras y completa el pago seguro en unos pocos clics.
+            Luego, enviaremos tus cactus directamente a tu puerta en el plazo de
+            entrega acordado.
+          </div>
+        </q-card-section>
+      </q-card-section>
+      <q-separator />
+    </q-card>
+
+    <q-card class="row-12">
+      <q-card-section horizontal>
+        <q-card-section>
+          <div class="text-subtitle2 text-justify">
+            No importa si eres un coleccionista experimentado o simplemente
+            estás buscando agregar algo de verde a tu hogar, estamos seguros de
+            que encontrarás algo que te encantará en nuestra tienda de cactus.
+            ¡Gracias por considerarnos para tu próxima compra de plantas!
+          </div>
+        </q-card-section>
+        <q-img class="col-5" src="~/assets/Cactus.png" />
+      </q-card-section>
+      <q-separator />
+    </q-card>
+
     <div class="row-12">
       <q-card>
         <q-card-section>
