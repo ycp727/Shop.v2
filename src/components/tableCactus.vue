@@ -3,7 +3,7 @@
     <q-table
       class="catprod2"
       :rows="cactus"
-      :columns="columnsCactus"
+      :columns="columnscactus"
       :filter="filter"
       row-key="id"
       rows-per-page-label="Productos a Mostrar"
@@ -15,11 +15,11 @@
       separator="cell"
     >
       <template v-slot:top="props">
-        <div class="col-5 q-table__title text-white">Cactus</div>
+        <div class="col-2 q-table__title text-white">Cactus</div>
         <q-space />
         <q-input
           rounded
-          standout="bg-teal-5 text-white"
+          standout="bg-teal-3 text-white"
           dark
           dense
           input-class="text-right"
@@ -41,12 +41,11 @@
           flat
           unelevated
           fab-mini
-          color="white"
           icon="add"
           type="submit"
           label="Agregar"
           @click="openAddDialog(props.row)"
-          class="q-ml-md"
+          class="q-ml-md btn-agregar"
         />
         <q-btn
           flat
@@ -57,7 +56,7 @@
           class="q-ml-md"
         />
       </template>
-      <template v-slot:body-cell-image="props">
+      <template v-slot:body-cell-foto="props">
         <q-td :props="props">
           <q-img
             :src="
@@ -76,6 +75,7 @@
             flat
             round
             dense
+            class="icon-ver"
             color="accent"
             icon="visibility"
             @click="openViewDialog(props.row)"
@@ -84,6 +84,7 @@
             flat
             round
             dense
+            class="icon-edit"
             color="primary"
             icon="edit"
             @click="openEditDialog(props.row)"
@@ -92,6 +93,7 @@
             flat
             round
             dense
+            class="icon-delete"
             color="negative"
             icon="delete"
             @click="deleteCactus(props.row.id)"
@@ -99,38 +101,31 @@
         </q-td>
       </template>
     </q-table>
-    <!-- Añadir - Editar -->
-    <q-dialog v-model="showDialogFl" persistent>
+    <!-- Añadir - EditCr -->
+    <q-dialog v-model="showDialogC" persistent>
       <q-card class="addedit">
         <q-card-section>
           <q-form class="justify-center">
+            <q-img
+              fit="cover"
+              :src="
+                imageUrl ||
+                getImageURL(
+                  tempCactus.collectionName,
+                  tempCactus.id,
+                  tempCactus.foto
+                )
+              "
+            />
             <q-file
               class="col-10"
               filled
               bottom-slots
               v-model="tempCactus.foto"
-              label="Agregar Foto del Producto"
+              label="Foto"
               counter
               @update:model-value="updateFile()"
             >
-              <template v-slot:before>
-                <q-avatar
-                  size="100px"
-                  style="transform: translateY(-250%) translateX(-50%)"
-                  class="absolute-center shadow-10"
-                >
-                  <img
-                    :src="
-                      imageUrl ||
-                      getImageURL(
-                        tempCactus.collectionName,
-                        tempCactus.id,
-                        tempCactus.foto
-                      )
-                    "
-                  />
-                </q-avatar>
-              </template>
               <template v-slot:prepend>
                 <q-icon name="cloud_upload" @click.stop.prevent />
               </template>
@@ -151,24 +146,24 @@
             <div class="row q-col-gutter-xs justify-between">
               <q-input
                 class="col-12"
-                v-model="tempCactus.cantidad"
-                type="number"
-                label="Cantidad"
-              />
-              <q-input
-                class="col-12"
                 v-model="tempCactus.precio"
                 type="number"
                 label="Precio"
               />
             </div>
+            <q-input
+              class="col-12"
+              v-model="tempCactus.cantidad"
+              type="number"
+              label="Cantidad"
+            />
             <div class="q-mt-xs row q-gutter-xs justify-center">
               <q-btn
                 class="col-4"
                 type="submit"
                 label="Guardar"
                 color="positive"
-                v-if="EditFl"
+                v-if="EditC"
                 @click="editCactus(tempCactus.id)"
               />
               <q-btn
@@ -176,14 +171,14 @@
                 type="submit"
                 label="Añadir"
                 color="positive"
-                v-if="AddFl"
+                v-if="AddC"
                 @click="addCactus(tempCactus)"
               />
               <q-btn
                 class="col-4"
                 color="negative"
                 label="Cancelar"
-                @click="showDialogFl = false"
+                @click="showDialogC = false"
               />
             </div>
           </q-form>
@@ -191,7 +186,7 @@
       </q-card>
     </q-dialog>
     <!-- Ver -->
-    <q-dialog v-model="ViewFl">
+    <q-dialog v-model="ViewC">
       <q-card class="my-cardroot">
         <q-card>
           <q-img
@@ -206,28 +201,40 @@
             "
             :alt="tempCactus.nombre"
           />
-
           <q-card-section>
             <div class="row no-wrap items-center">
-              <q-item-label header="" class="col text-h3" align="center">
+              <q-item-label header="" class="col text-h6 ellipsis">
                 {{ tempCactus.nombre }}
               </q-item-label>
+              <div
+                class="col-auto text-grey text-caption row no-wrap items-center"
+              >
+                Comprar
+              </div>
+            </div>
+            <div align="center">
+              <q-rating
+                v-model="stars"
+                icon="star_border"
+                icon-selected="star"
+                :max="5"
+                size="1.5em"
+                v-if="tempCactus.rating"
+                :value="tempCactus.rating"
+                :readonly="false"
+              />
             </div>
           </q-card-section>
-          <q-card-section>
-            <div class="row no-wrap items-center">
-              <q-item-label header="" class="col text-h5" align="center">
-                precio ${{ tempCactus.precio }}
-              </q-item-label>
+          <q-card-section class="q-pt-none">
+            <div class="text-subtitle1 text-right">
+              $ {{ tempCactus.precio }}
+            </div>
+            <div class="text-caption text-grey text-center">
+              {{ tempCactus.cantidad }}
             </div>
           </q-card-section>
-          <q-card-section>
-            <div class="row no-wrap items-center">
-              <q-item-label header="" class="col text-h5" align="center">
-                cantidad {{ tempCactus.cantidad }}
-              </q-item-label>
-            </div>
-          </q-card-section>
+          <q-separator />
+          <q-card-actions vertical align="center"> </q-card-actions>
         </q-card>
       </q-card>
     </q-dialog>
@@ -240,14 +247,14 @@ import { useStockProducts } from "src/stores/StockProducts";
 import { useScriptStore } from "src/stores/ScriptStore";
 
 const { getImageURL } = useScriptStore();
-const { getCactus, addCactus, editCactus, deleteCactus } = useStockProducts();
-const { cactus, tempCactus, AddFl, EditFl, ViewFl, showDialogFl } = storeToRefs(
-  useStockProducts()
-);
+const { getCactus, getAccesorios, addCactus, editCactus, deleteCactus } =
+  useStockProducts();
+const { cactus, accesorios, tempCactus, AddC, EditC, ViewC, showDialogC } =
+  storeToRefs(useStockProducts());
 
 const filter = ref("");
 const stars = ref(0);
-const columnsCactus = [
+const columnscactus = [
   {
     name: "foto",
     label: "Foto",
@@ -265,15 +272,6 @@ const columnsCactus = [
     autoWidth: true,
   },
   {
-    name: "cantidad",
-    align: "center",
-    label: "Cantidad",
-    field: "cantidad",
-    required: true,
-    sortable: true,
-    autoWidth: true,
-  },
-  {
     name: "precio",
     align: "center",
     label: "Precio",
@@ -282,28 +280,37 @@ const columnsCactus = [
     sortable: true,
     autoWidth: true,
   },
+  {
+    name: "cantidad",
+    align: "left",
+    label: "Cantidad",
+    field: "cantidad",
+    classes: "ellipsis",
+    style: "max-width: 250px",
+  },
   { name: "actions", label: "Acciones", align: "center", autoWidth: true },
 ];
 
 onMounted(async () => {
   await getCactus();
+  await getAccesorios();
 });
 
 const openViewDialog = (row) => {
   tempCactus.value = { ...row };
-  ViewFl.value = true;
+  ViewC.value = true;
 };
 const openEditDialog = (row) => {
   tempCactus.value = { ...row };
-  AddFl.value = false;
-  EditFl.value = true;
-  showDialogFl.value = true;
+  AddC.value = false;
+  EditC.value = true;
+  showDialogC.value = true;
 };
 const openAddDialog = () => {
   clearPreview();
-  AddFl.value = true;
-  EditFl.value = false;
-  showDialogFl.value = true;
+  AddC.value = true;
+  EditC.value = false;
+  showDialogC.value = true;
 };
 const imageUrl = ref("");
 function updateFile() {
@@ -313,33 +320,15 @@ function updateFile() {
 function clearPreview() {
   tempCactus.value.foto = null;
   tempCactus.value.nombre = "";
+  tempCactus.value.cantidad = "";
   tempCactus.value.precio = null;
-  tempCactus.value.cantidad = null;
+  tempCactus.value.available = true;
+  tempCactus.value.rating = null;
+  tempCactus.value.discount = null;
   imageUrl.value = "";
 }
 </script>
-
 <style lang="scss">
-.catprod2 {
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th {
-    background-color: #89e190;
-  }
-  thead tr th {
-    position: sticky;
-    z-index: 1;
-    &.q-table--loading thead tr:last-child th {
-      top: 48px;
-    }
-  }
-  &.q-table--loading thead tr:last-child th {
-    top: 48px;
-  }
-  tbody {
-    scroll-margin-top: 48px;
-  }
-}
 .my-cardroot {
   padding: 200px, 850px;
   max-width: 350px;
@@ -369,5 +358,48 @@ function clearPreview() {
   backdrop-filter: blur(8.3px);
   -webkit-backdrop-filter: blur(8.3px);
   border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.my-cardroot {
+  width: 800px;
+  padding: 2%;
+}
+.addedit {
+  max-width: 800px;
+  padding: 2%;
+}
+.q-badge {
+  margin-right: 8px;
+}
+.icon-ver {
+  background-color: #fff;
+  color: #007bff;
+}
+.icon-ver:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+.icon-edit {
+  background-color: #fff;
+  color: #26ab9d;
+}
+.icon-edit:hover {
+  background-color: #26ab9d;
+  color: #fff;
+}
+.icon-delete {
+  background-color: #fff;
+  color: #d32f2f;
+}
+.icon-delete:hover {
+  background-color: #d32f2f;
+  color: #fff;
+}
+.btn-agregar {
+  background-color: #fff;
+  color: #26ab9d;
+}
+.btn-agregar:hover {
+  background-color: #26ab9d;
+  color: #fff;
 }
 </style>

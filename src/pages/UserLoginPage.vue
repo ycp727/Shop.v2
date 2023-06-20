@@ -165,11 +165,11 @@
 
 <script setup>
 import { ref } from "vue";
-import { useAuthStore } from "src/stores/AuthUser";
+import { useAuthUser } from "src/stores/AuthUser";
 import { storeToRefs } from "pinia";
 
-const { submitAcceso, submitCrearCuenta } = useAuthStore();
-const { crearCuentaForm, accesoForm } = storeToRefs(useAuthStore());
+const { submitAcceso, submitCrearCuenta } = useAuthUser();
+const { crearCuentaForm, accesoForm } = storeToRefs(useAuthUser());
 
 const accept = ref(false);
 const isCuenta = ref(true);

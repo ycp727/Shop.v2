@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { Notify, Dialog } from "quasar";
 import PocketBase from "pocketbase";
 
-export const useAuthStore = defineStore("Auth", {
+export const useAuthUser = defineStore("Auth", {
   state: () => ({
     token: "",
     isAuthenticated: false,

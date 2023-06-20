@@ -41,12 +41,11 @@
           flat
           unelevated
           fab-mini
-          color="white"
           icon="add"
           type="submit"
-          label="Agregar"
+          label="Agregar "
           @click="openAddDialog(props.row)"
-          class="q-ml-md"
+          class="q-ml-md btn-agregar"
         />
         <q-btn
           flat
@@ -76,7 +75,7 @@
             flat
             round
             dense
-            color="accent"
+            class="icon-ver"
             icon="visibility"
             @click="openViewDialog(props.row)"
           />
@@ -84,7 +83,7 @@
             flat
             round
             dense
-            color="primary"
+            class="icon-edit"
             icon="edit"
             @click="openEditDialog(props.row)"
           />
@@ -92,7 +91,7 @@
             flat
             round
             dense
-            color="negative"
+            class="icon-delete"
             icon="delete"
             @click="deleteAccesorios(props.row.id)"
           />
@@ -328,29 +327,39 @@ function clearPreview() {
 </script>
 
 <style lang="scss">
-.catprod2 {
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th {
-    background-color: #b9242a;
-  }
-  thead tr th {
-    position: sticky;
-    z-index: 1;
-    &.q-table--loading thead tr:last-child th {
-      top: 48px;
-    }
-  }
-  &.q-table--loading thead tr:last-child th {
-    top: 48px;
-  }
-  tbody {
-    scroll-margin-top: 48px;
-  }
+.my-cardroot {
+  padding: 200px, 850px;
+  max-width: 350px;
+  background: rgba(255, 255, 255, 0.614);
+  border-radius: 20px;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8.3px);
+  -webkit-backdrop-filter: blur(8.3px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.addedit {
+  padding: 200px, 850px;
+  max-width: 350px;
+  background: rgba(255, 255, 255, 0.614);
+  border-radius: 20px;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8.3px);
+  -webkit-backdrop-filter: blur(8.3px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.q-badge {
+  padding: 200px, 850px;
+  max-width: 350px;
+  background: rgba(255, 255, 255, 0.614);
+  border-radius: 20px;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8.3px);
+  -webkit-backdrop-filter: blur(8.3px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 .my-cardroot {
-  width: 300px;
-  padding: 1%;
+  width: 800px;
+  padding: 2%;
 }
 .addedit {
   max-width: 800px;
@@ -358,5 +367,37 @@ function clearPreview() {
 }
 .q-badge {
   margin-right: 8px;
+}
+.icon-ver {
+  background-color: #fff;
+  color: #007bff;
+}
+.icon-ver:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+.icon-edit {
+  background-color: #fff;
+  color: #26ab9d;
+}
+.icon-edit:hover {
+  background-color: #26ab9d;
+  color: #fff;
+}
+.icon-delete {
+  background-color: #fff;
+  color: #d32f2f;
+}
+.icon-delete:hover {
+  background-color: #d32f2f;
+  color: #fff;
+}
+.btn-agregar {
+  background-color: #fff;
+  color: #26ab9d;
+}
+.btn-agregar:hover {
+  background-color: #26ab9d;
+  color: #fff;
 }
 </style>

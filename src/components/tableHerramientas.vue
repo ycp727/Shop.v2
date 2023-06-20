@@ -41,12 +41,11 @@
           flat
           unelevated
           fab-mini
-          color="white"
           icon="add"
           type="submit"
           label="Agregar"
           @click="openAddDialog(props.row)"
-          class="q-ml-md"
+          class="q-ml-md btn-agregar"
         />
         <q-btn
           flat
@@ -57,7 +56,7 @@
           class="q-ml-md"
         />
       </template>
-      <template v-slot:body-cell-image="props">
+      <template v-slot:body-cell-foto="props">
         <q-td :props="props">
           <q-img
             :src="
@@ -76,6 +75,7 @@
             flat
             round
             dense
+            class="icon-ver"
             color="accent"
             icon="visibility"
             @click="openViewDialog(props.row)"
@@ -84,6 +84,7 @@
             flat
             round
             dense
+            class="icon-edit"
             color="primary"
             icon="edit"
             @click="openEditDialog(props.row)"
@@ -92,6 +93,7 @@
             flat
             round
             dense
+            class="icon-delete"
             color="negative"
             icon="delete"
             @click="deleteHerramientas(props.row.id)"
@@ -373,5 +375,37 @@ function clearPreview() {
   backdrop-filter: blur(8.3px);
   -webkit-backdrop-filter: blur(8.3px);
   border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.icon-ver {
+  background-color: #fff;
+  color: #007bff;
+}
+.icon-ver:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+.icon-edit {
+  background-color: #fff;
+  color: #26ab9d;
+}
+.icon-edit:hover {
+  background-color: #26ab9d;
+  color: #fff;
+}
+.icon-delete {
+  background-color: #fff;
+  color: #d32f2f;
+}
+.icon-delete:hover {
+  background-color: #d32f2f;
+  color: #fff;
+}
+.btn-agregar {
+  background-color: #fff;
+  color: #26ab9d;
+}
+.btn-agregar:hover {
+  background-color: #26ab9d;
+  color: #fff;
 }
 </style>

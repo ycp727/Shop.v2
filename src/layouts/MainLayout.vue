@@ -6,9 +6,9 @@
 
         <q-toolbar-title class="col-3">
           <q-avatar>
-            <img src="~/assets/logo_shop.png" />
+            <img src="~/assets/Cactus.png" />
           </q-avatar>
-          Sweet Delight
+          Cactus
         </q-toolbar-title>
 
         <div class="row col justify-end items-center content-end">
@@ -92,7 +92,7 @@
             stretch
             unelevated
             padding="5px"
-            label="Mi Carrito"
+            label="Ver compra"
             icon-right="shopping_cart"
             @click="toggleRightDrawer"
           >
@@ -126,7 +126,7 @@
         <q-toolbar-title>
           <div class="col-2 q-pa-xs">
             <q-avatar>
-              <img src="~/assets/logo_shop.png" />
+              <img src="~/assets/Cactus.png" />
             </q-avatar>
           </div>
         </q-toolbar-title>
@@ -156,13 +156,31 @@
             icon="lab la-telegram"
             size="lg"
             target="_blank"
-            href="https://t.me/Will_l"
+            href="https://weba.telegram.org/"
+          />
+          <q-btn
+            round
+            flat
+            padding="none"
+            icon="lab la-github"
+            size="lg"
+            target="_blank"
+            href="https://github.com/"
+          />
+          <q-btn
+            round
+            flat
+            padding="none"
+            icon="lab la-youtube"
+            size="lg"
+            target="_blank"
+            href="https://www.youtube.com/"
           />
         </div>
         <q-separator spaced />
         <div class="col-3 justify-center text-center">
           {{ new Date().getFullYear() }} —
-          <strong>Copyright: @willl_l</strong>
+          <strong>Copyright: ycp727</strong>
         </div>
       </q-toolbar>
     </q-footer>

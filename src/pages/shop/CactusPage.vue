@@ -63,7 +63,6 @@
               Comprar
             </div>
           </div>
-
           <div align="center">
             <q-rating
               v-model="stars"
@@ -77,7 +76,6 @@
             />
           </div>
         </q-card-section>
-
         <q-card-section class="q-pt-none">
           <div class="text-h4 text-right">$ {{ item.precio }}</div>
           <div class="text-h5 text-grey text-center">
@@ -119,19 +117,19 @@
 import { useQuasar } from "quasar";
 import { storeToRefs } from "pinia";
 import { ref, computed, onMounted } from "vue";
-import { useAuthStore } from "src/stores/AuthUser";
+import { useAuthUser } from "src/stores/AuthUser";
 import { useScriptStore } from "src/stores/ScriptStore";
 import { useStockProducts } from "src/stores/StockProducts";
 
 const $q = useQuasar();
 
 const { getImageURL } = useScriptStore();
-const { putToCart, getCartByID, getFuentes } = useStockProducts();
-const { me } = storeToRefs(useAuthStore());
-const { fuentes } = storeToRefs(useStockProducts());
+const { putToCart, getCartByID, getCactus } = useStockProducts();
+const { me } = storeToRefs(useAuthUser());
+const { cactus } = storeToRefs(useStockProducts());
 
 onMounted(async () => {
-  await getFuentes();
+  await getCactus();
 });
 
 const search = ref("");
@@ -142,7 +140,7 @@ const perPage = ref(6);
 const maxPrice = ref(Infinity);
 
 const filteredItems = computed(() => {
-  return fuentes.value.filter((item) => {
+  return cactus.value.filter((item) => {
     const matchTitle = item.nombre
       .toLowerCase()
       .includes(search.value.toLowerCase());

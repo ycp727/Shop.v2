@@ -117,19 +117,19 @@
 import { useQuasar } from "quasar";
 import { storeToRefs } from "pinia";
 import { ref, computed, onMounted } from "vue";
-import { useAuthStore } from "src/stores/AuthUser";
+import { useAuthUser } from "src/stores/AuthUser";
 import { useScriptStore } from "src/stores/ScriptStore";
 import { useStockProducts } from "src/stores/StockProducts";
 
 const $q = useQuasar();
 
 const { getImageURL } = useScriptStore();
-const { putToCart, getCartByID, getDiademas } = useStockProducts();
-const { me } = storeToRefs(useAuthStore());
-const { diademas } = storeToRefs(useStockProducts());
+const { putToCart, getCartByID, getAccesorios } = useStockProducts();
+const { me } = storeToRefs(useAuthUser());
+const { accesorios } = storeToRefs(useStockProducts());
 
 onMounted(async () => {
-  await getDiademas();
+  await getAccesorios();
 });
 
 const search = ref("");
@@ -140,7 +140,7 @@ const perPage = ref(6);
 const maxPrice = ref(Infinity);
 
 const filteredItems = computed(() => {
-  return diademas.value.filter((item) => {
+  return accesorios.value.filter((item) => {
     const matchTitle = item.nombre
       .toLowerCase()
       .includes(search.value.toLowerCase());

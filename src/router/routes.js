@@ -7,11 +7,23 @@ const routes = [
         path: "",
         component: () => import("pages/IndexPage.vue"),
       },
+      {
+        path: "herramientas",
+        component: () => import("pages/shop/HerramientasPage.vue"),
+      },
+      {
+        path: "accesorios",
+        component: () => import("pages/shop/AccesoriosPage.vue"),
+      },
+      {
+        path: "cactus",
+        component: () => import("pages/shop/CactusPage.vue"),
+      },
     ],
   },
   {
     path: "/admin",
-    component: () => import("layouts/MainLayout.vue"),
+    component: () => import("layouts/AdminLayout.vue"),
     children: [
       {
         path: "users",
@@ -20,52 +32,6 @@ const routes = [
       {
         path: "products",
         component: () => import("pages/admin/ProductsPage.vue"),
-      },
-    ],
-  },
-  {
-    path: "/shop",
-    component: () => import("layouts/AdminLayout.vue"),
-    children: [
-      {
-        path: "diadema",
-        component: () => import("pages/shop/DiademaPage.vue"),
-      },
-      {
-        path: "fuentes",
-        component: () => import("pages/shop/FuentesPage.vue"),
-      },
-      {
-        path: "carteras",
-        component: () => import("pages/shop/CarterasPage.vue"),
-      },
-      {
-        path: "herramientas",
-        component: () => import("pages/shop/HerramientasPage.vue"),
-      },
-      {
-        path: "jaulas",
-        component: () => import("pages/shop/JaulasPage.vue"),
-      },
-      {
-        path: "macetas",
-        component: () => import("pages/shop/MacetasPage.vue"),
-      },
-      {
-        path: "piedras",
-        component: () => import("pages/shop/PiedrasPage.vue"),
-      },
-      {
-        path: "ramilletes",
-        component: () => import("pages/shop/RamilletesPage.vue"),
-      },
-      {
-        path: "vestidos",
-        component: () => import("pages/shop/VestidosPage.vue"),
-      },
-      {
-        path: "zapatos",
-        component: () => import("pages/shop/ZapatosPage.vue"),
       },
     ],
   },

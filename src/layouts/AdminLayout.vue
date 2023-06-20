@@ -293,7 +293,8 @@
 <script setup>
 import { useQuasar } from "quasar";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import Messages from "./MessagesPage.vue";
 import { useAuthUser } from "src/stores/AuthUser";
 import { useScriptStore } from "src/stores/ScriptStore";
 

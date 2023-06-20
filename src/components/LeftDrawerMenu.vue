@@ -1,5 +1,5 @@
 <template>
-  <div class="q-ma" >
+  <div class="q-ma">
     <q-list bordered class="rounded-borders">
       <q-item clickable v-ripple to="/">
         <q-item-section avatar>
@@ -18,44 +18,22 @@
         label="Productos"
         caption="por categorias"
       >
-        <q-item clickable :inset-level=inset v-ripple to="/pasteles">
-          <q-item-section avatar>
-            <q-icon color="secondary" name="las la-birthday-cake" />
-          </q-item-section>
+        <q-item clickable v-ripple to="/cactus">
+          <q-item-section avatar> </q-item-section>
 
-          <q-item-section class="text-secondary">Pasteles</q-item-section>
+          <q-item-section class="text-secondary">Cactus</q-item-section>
         </q-item>
 
-        <q-item clickable :inset-level=inset v-ripple to="/flanes">
-          <q-item-section avatar>
-            <q-icon color="secondary" name="las la-drum-steelpan" />
-          </q-item-section>
+        <q-item clickable v-ripple to="/herramientas">
+          <q-item-section avatar> </q-item-section>
 
-          <q-item-section class="text-secondary">Flanes</q-item-section>
+          <q-item-section class="text-secondary">Herramientas</q-item-section>
         </q-item>
 
-        <q-item clickable :inset-level=inset v-ripple to="/reposteria">
-          <q-item-section avatar>
-            <q-icon color="secondary" name="las la-cookie" />
-          </q-item-section>
+        <q-item clickable v-ripple to="/accesorios">
+          <q-item-section avatar> </q-item-section>
 
-          <q-item-section class="text-secondary">Repostería</q-item-section>
-        </q-item>
-
-        <q-item clickable :inset-level=inset v-ripple to="/panaderia">
-          <q-item-section avatar>
-            <q-icon color="secondary" name="las la-bread-slice" />
-          </q-item-section>
-
-          <q-item-section class="text-secondary">Panadería</q-item-section>
-        </q-item>
-
-        <q-item clickable :inset-level=inset v-ripple to="/decoraciones">
-          <q-item-section avatar>
-            <q-icon color="secondary" name="las la-hanukiah" />
-          </q-item-section>
-
-          <q-item-section class="text-secondary">Decoraciones</q-item-section>
+          <q-item-section class="text-secondary">Accesorios</q-item-section>
         </q-item>
       </q-expansion-item>
 
@@ -89,14 +67,14 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 export default {
   name: "LeftDrawerMenu",
   setup() {
-    const inset = ref(1)
+    const inset = ref(1);
     return {
-      inset
+      inset,
     };
   },
 };
