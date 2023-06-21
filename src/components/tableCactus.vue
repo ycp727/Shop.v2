@@ -247,10 +247,10 @@ import { useStockProducts } from "src/stores/StockProducts";
 import { useScriptStore } from "src/stores/ScriptStore";
 
 const { getImageURL } = useScriptStore();
-const { getCactus, getAccesorios, addCactus, editCactus, deleteCactus } =
-  useStockProducts();
-const { cactus, accesorios, tempCactus, AddC, EditC, ViewC, showDialogC } =
-  storeToRefs(useStockProducts());
+const { getCactus, addCactus, editCactus, deleteCactus } = useStockProducts();
+const { cactus, tempCactus, AddC, EditC, ViewC, showDialogC } = storeToRefs(
+  useStockProducts()
+);
 
 const filter = ref("");
 const stars = ref(0);
@@ -293,7 +293,6 @@ const columnscactus = [
 
 onMounted(async () => {
   await getCactus();
-  await getAccesorios();
 });
 
 const openViewDialog = (row) => {

@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar class="bg-secondary">
+      <q-toolbar class="bg-teal-10">
         <q-btn
           flat
           dense
@@ -152,7 +152,7 @@
             </q-item>
             <!-- ========== -->
             <q-item
-              to="/admin/tablesproduct"
+              to="/admin/products"
               active-class="q-item-no-link-highlighting"
             >
               <q-item-section avatar>
@@ -193,10 +193,7 @@
           </q-list>
         </q-expansion-item>
         <!-- ========== -->
-        <q-item
-          to="/admin/tableusers"
-          active-class="q-item-no-link-highlighting"
-        >
+        <q-item to="/admin/users" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="person" />
           </q-item-section>
@@ -291,24 +288,24 @@
 </template>
 
 <script setup>
-import { useQuasar } from "quasar";
 import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
-import Messages from "./MessagesPage.vue";
 import { useAuthUser } from "src/stores/AuthUser";
 import { useScriptStore } from "src/stores/ScriptStore";
+import Messages from "./MessagesPage.vue";
 
 const { getImageURL } = useScriptStore();
-const { submitlogout } = useAuthUser();
+const { submitlogout, reAcceso } = useAuthUser();
 const { me } = storeToRefs(useAuthUser());
+
 onMounted(async () => {
-  // await refreshAuth();
+  await reAcceso();
 });
+
 const leftDrawerOpen = ref(false);
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
-const $q = useQuasar();
 </script>
 
 <style>

@@ -18,17 +18,17 @@
       />
     </div>
     <!-- content -->
-    <table-Accesorios v-if="cat === 'Accesorios'" />
-    <table-Cactus v-if="cat === 'Cactus'" />
-    <table-Herramientas v-if="cat === 'Herramientas'" />
+    <tableAccesoriosVue v-if="cat === 'Accesorios'" />
+    <tableCactusVue v-if="cat === 'Cactus'" />
+    <tableHerramientasVue v-if="cat === 'Herramientas'" />
   </q-page>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import TableAccesorios from "src/components/tableAccesorios.vue";
-import TableCactus from "src/components/tableCactus.vue";
-import TableHerramientas from "src/components/tableHerramientas.vue";
+import tableAccesoriosVue from "src/components/tableAccesorios.vue";
+import tableCactusVue from "src/components/tableCactus.vue";
+import tableHerramientasVue from "src/components/tableHerramientas.vue";
 
 const cat = ref("Accesorios");
 const options = ["Accesorios", "Cactus", "Herramientas"];

@@ -4,29 +4,21 @@
     <div class="bg bg2"></div>
     <div class="bg bg3"></div>
     <q-card flat bordered class="my-card">
-      <q-card-section>
-        <div class="row items-center no-wrap">
-          <div class="col">
-            <div
-              class="text-h5 text-weight-bolder text-center text-darck"
-              v-if="isCuenta"
-            >
-              Crear Cuenta
-            </div>
-            <div
-              class="text-h5 text-weight-bolder text-center text-darck"
-              v-else
-            >
-              Acceso
-            </div>
-          </div>
-          <div class="col-auto"></div>
-        </div>
-      </q-card-section>
-
       <q-card-section v-if="isCuenta">
-        <q-form @submit.prevent="submitCrearCuenta" class="q-gutter-xs">
+        <q-form
+          @submit.prevent="submitCrearCuenta"
+          class="row justify-around q-gutter-xs q-ma-none q-pa-none"
+        >
+          <p
+            class="col-12 text-h5 text-weight-bolder text-center text-dark q-ma-none q-pa-none"
+          >
+            Crear Cuenta
+          </p>
+          <q-avatar size="120px" class="shadow-15 q-ma-xs">
+            <img :src="imageUrl || 'src/assets/no_user_login.png'" />
+          </q-avatar>
           <q-file
+            class="col-11"
             filled
             bottom-slots
             v-model="crearCuentaForm.avatar"
@@ -34,15 +26,6 @@
             counter
             @update:model-value="updateFile()"
           >
-            <template v-slot:before>
-              <q-avatar
-                size="200px"
-                style="transform: translateY(-250%) translateX(-50%)"
-                class="absolute-center shadow-10"
-              >
-                <img :src="imageUrl || 'src/assets/no_user_login.png'" />
-              </q-avatar>
-            </template>
             <template v-slot:prepend>
               <q-icon name="cloud_upload" @click.stop.prevent />
             </template>
@@ -56,6 +39,7 @@
           </q-file>
 
           <q-input
+            class="col-11"
             type="text"
             label="Nombres y Apellidos"
             v-model="crearCuentaForm.name"
@@ -63,12 +47,14 @@
             required
           />
           <q-input
+            class="col-11"
             type="text"
             label="Nombre de Usuario"
             v-model="crearCuentaForm.username"
             dense
           />
           <q-input
+            class="col-11"
             type="email"
             label="Correo electrónico"
             v-model="crearCuentaForm.email"
@@ -76,6 +62,7 @@
             required
           />
           <q-input
+            class="col-5"
             type="password"
             label="Contraseña"
             v-model="crearCuentaForm.password"
@@ -83,6 +70,7 @@
             required
           />
           <q-input
+            class="col-5"
             type="password"
             label="Confirmar Contraseña"
             v-model="crearCuentaForm.passwordConfirm"
@@ -90,33 +78,40 @@
             required
           />
 
-          <q-card-actions vertical>
+          <q-card-section
+            class="row q-pa-xs q-gutter-md justify-around"
+            vertical
+          >
             <q-toggle
               v-model="accept"
               label="Acepto la licencia y los términos"
             />
+
             <q-btn
-              class="q-ma-xs"
+              class="col-5"
               type="submit"
               color="positive"
               icon="login"
               label="Crear"
             />
             <q-btn
-              class="q-ma-xs"
+              class="col-5"
               type="submit"
               color="negative"
-              label="Regresar"
               icon="logout"
+              label="Regresar"
               to="/"
             />
-          </q-card-actions>
+          </q-card-section>
         </q-form>
       </q-card-section>
 
       <!-- Acceso -->
       <q-card-section v-else>
         <q-form @submit.prevent="submitAcceso" class="q-gutter-md">
+          <p class="col-12 text-h5 text-weight-bolder text-center text-dark">
+            Acceso
+          </p>
           <q-input
             type="email"
             label="Correo electrónico"
@@ -149,7 +144,7 @@
         </q-form>
       </q-card-section>
       <!-- Crear Cuenta -->
-      <q-card-section>
+      <q-card-section class="q-pt-none">
         <div v-if="isCuenta" class="text-overline text-center">
           ¿Ya tienes una cuenta?
           <a href="#" @click.prevent="toggleForm(false)">Acceso</a>
@@ -198,7 +193,7 @@ function toggleForm(value) {
 }
 .my-card {
   width: 100%;
-  max-width: 350px;
+  max-width: 380px;
   background: rgba(255, 255, 255, 0.12);
   border-radius: 20px;
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);

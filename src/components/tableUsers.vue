@@ -224,7 +224,7 @@
     <q-dialog v-model="ViewU">
       <q-card class="my-cardroot">
         <q-img
-          class=""
+          class="q-ma-none"
           :ratio="16 / 9"
           fit="contain"
           :src="
@@ -249,14 +249,12 @@
             <q-item-label overline>Rol:</q-item-label>
             <q-item-label>{{ tempUsers.roles }}</q-item-label>
           </q-item-section>
-          <q-card-section>
-            <q-item-section class="col text-subtitle1 ellipsis">
-              <q-item-label overline>Creado:</q-item-label>
-              <q-item-label>{{ tempUsers.created }}</q-item-label>
-              <q-item-label overline>Ultima Actualización:</q-item-label>
-              <q-item-label>{{ tempUsers.updated }}</q-item-label>
-            </q-item-section>
-          </q-card-section>
+          <q-item-section>
+            <q-item-label overline>Creado:</q-item-label>
+            <q-item-label>{{ tempUsers.created }}</q-item-label>
+            <q-item-label overline>Ultima Actualización:</q-item-label>
+            <q-item-label>{{ tempUsers.updated }}</q-item-label>
+          </q-item-section>
         </q-card-section>
       </q-card>
     </q-dialog>

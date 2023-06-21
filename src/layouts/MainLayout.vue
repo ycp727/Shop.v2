@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr fFr">
-    <q-header reveal elevated class="bg-primary text-white">
+    <q-header reveal elevated class="bg-secondary text-white">
       <q-toolbar class="row justify-between">
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
@@ -10,7 +10,6 @@
           </q-avatar>
           Cactus
         </q-toolbar-title>
-
         <div class="row col justify-end items-center content-end">
           <q-btn
             dense
@@ -19,7 +18,7 @@
             padding="2px"
             icon-right="settings_applications"
             to="/admin/dashboard"
-            v-if="me.id"
+            v-if="me.roles === 'admin'"
           />
           <q-btn
             unelevated
@@ -197,10 +196,14 @@ import { useStockProducts } from "src/stores/StockProducts";
 import { useScriptStore } from "src/stores/ScriptStore";
 
 const { getImageURL } = useScriptStore();
-const { submitlogout } = useAuthUser();
+const { submitlogout, reAcceso } = useAuthUser();
 
 const { carritoCantidad } = storeToRefs(useStockProducts());
 const { me } = storeToRefs(useAuthUser());
+
+onMounted(async () => {
+  reAcceso();
+});
 
 const leftDrawerOpen = ref(false);
 const rightDrawerOpen = ref(false);

@@ -50,7 +50,7 @@ export const useAuthUser = defineStore("Auth", {
         this.token = pb.authStore.token;
         this.isAuthenticated = true;
         this.me = authData.record;
-        console.log("firstData => ", authData);
+        // console.log("firstData => ", authData);
 
         Notify.create({
           icon: "las la-fire-alt",
@@ -62,11 +62,44 @@ export const useAuthUser = defineStore("Auth", {
         this.accesoForm.password = "";
         this.router.push("/");
       } catch (error) {
+        Notify.create({
+          icon: "las la-exclamation-circle",
+          position: "top-right",
+          message:
+            "Ocurrió un error al iniciar sesión. Por favor, verifica tus credenciales e intenta de nuevo.",
+          color: "negative",
+        });
         console.log(error);
       }
     },
 
+    async reAcceso() {
+      //Con redirrecion si no estas logeado
+      try {
+        const token = localStorage.getItem("pocketbase_auth");
+        if (!token) {
+          console.log(
+            "Token de autenticación no encontrado. Redirigiendo a la página de inicio de sesión..."
+          );
+          this.router.push("/login");
+          return;
+        }
+        const pb = new PocketBase("http://127.0.0.1:8090");
+        const authData = await pb.collection("users").authRefresh();
+        // console.log("Auth data:", authData);
+        this.token = pb.authStore.token;
+        this.isAuthenticated = true;
+        this.me = authData.record;
+      } catch (error) {
+        console.log("Error al renovar la autenticación:", error);
+        console.log("Redirigiendo a la página de inicio de sesión...");
+        this.router.push("/login");
+      }
+    },
+
     async submitlogout() {
+      const pb = new PocketBase("http://127.0.0.1:8090");
+      pb.authStore.clear();
       this.token = "";
       this.isAuthenticated = false;
       this.me = {};
@@ -94,20 +127,25 @@ export const useAuthUser = defineStore("Auth", {
 
         if (response) {
           console.log("Registro exitoso!");
-          console.log("Respuesta => ", response);
+          // console.log("Respuesta => ", response);
           Notify.create({
             color: "positive",
             message: `Usuario ${this.crearCuentaForm.username} registrado exitosamente`,
             position: "top",
             icon: "check",
           });
+          this.accesoForm.identity = this.crearCuentaForm.email;
+          this.accesoForm.password = this.crearCuentaForm.password;
           this.crearCuentaForm.name = "";
           this.crearCuentaForm.username = "";
           this.crearCuentaForm.email = "";
           this.crearCuentaForm.password = "";
           this.crearCuentaForm.passwordConfirm = "";
           this.crearCuentaForm.avatar = null;
+          await this.submitAcceso();
           this.router.push("/");
+          this.accesoForm.identity = "";
+          this.accesoForm.password = "";
           console.log("Redireccionando a la página principal...");
         }
       } catch (error) {
@@ -120,27 +158,6 @@ export const useAuthUser = defineStore("Auth", {
         });
       }
     },
-
-    async refreshAuth() {
-      //no
-      try {
-        const authData = await pb.collection("users").authRefresh();
-        console.log("Auth data:", authData);
-
-        // Actualiza el estado de autenticación y los datos del usuario en tu store de Pinia
-        this.token = pb.authStore.token;
-        this.isAuthenticated = true;
-        this.me = authData.model;
-
-        // Verifica que la autenticación sea válida y actualizada
-        console.log(pb.authStore.isValid);
-        console.log(pb.authStore.token);
-        console.log(pb.authStore.model.id);
-      } catch (error) {
-        console.log("Error al renovar la autenticación:", error);
-      }
-    },
-
     // -----------------------------
     async getUsers() {
       try {
@@ -148,7 +165,7 @@ export const useAuthUser = defineStore("Auth", {
         const records = await pb.collection("users").getFullList({
           sort: "-created",
         });
-        console.log("mi record : ", records);
+        // console.log("mi record : ", records);
         this.users = records;
       } catch (error) {
         console.log(error);
@@ -169,7 +186,7 @@ export const useAuthUser = defineStore("Auth", {
         const createdRecord = await pb.collection("users").create(formData);
         if (createdRecord) {
           console.log("Add exitoso!");
-          console.log("Respuesta => ", createdRecord);
+          // console.log("Respuesta => ", createdRecord);
           Notify.create({
             color: "positive",
             message: "Agregado con exito",
@@ -206,7 +223,7 @@ export const useAuthUser = defineStore("Auth", {
         const updatedRecord = await pb.collection("users").update(id, formData);
         if (updatedRecord) {
           console.log("Update exitoso!");
-          console.log("Respuesta => ", updatedRecord);
+          // console.log("Respuesta => ", updatedRecord);
           Notify.create({
             color: "positive",
             message: "Actualizado con exito",
